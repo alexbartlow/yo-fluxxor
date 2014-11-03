@@ -106,26 +106,6 @@ module.exports = function(grunt) {
       },
       server: '.tmp'
     },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
-        '!<%= yeoman.app %>/scripts/vendor/*',
-        'test/spec/{,*/}*.js'
-      ]
-    },
-    mocha: {
-      all: {
-        options: {
-          run: true,
-          urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
-        }
-      }
-    },
     less: {
       options: {
         compile: true,
@@ -146,7 +126,7 @@ module.exports = function(grunt) {
         src: ['<%= yeoman.vendor %>/bootstrap/less/bootstrap.less'],
         dest: '<%= yeoman.dist %>/styles/bootstrap.min.css'
       },
-      min: {
+      dist: {
         options: {
           compress: true
         },
@@ -175,7 +155,7 @@ module.exports = function(grunt) {
         dest: '.tmp/scripts/main.js',
         options: {
           debug: true,
-          external: ['jquery', 'lodash', 'backbone']
+          external: ['lodash']
         }
       },
       test: {
@@ -277,43 +257,6 @@ module.exports = function(grunt) {
         }]
       }
     },
-    cssmin: {
-      // This task is pre-configured if you do not wish to use Usemin
-      // blocks for your CSS. By default, the Usemin block from your
-      // `index.html` will take care of minification, e.g.
-      //
-      //     <!-- build:css({.tmp,app}) styles/main.css -->
-      //
-      // dist: {
-      //     files: {
-      //         '/styles/main.css': [
-      //             '.tmp/styles/{,*/}*.css',
-      //             '/styles/{,*/}*.css'
-      //         ]
-      //     }
-      // }
-    },
-    htmlmin: {
-      dist: {
-        options: {
-          /*removeCommentsFromCDATA: true,
-          // https://github.com/yeoman/grunt-usemin/issues/44
-          //collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeAttributeQuotes: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true*/
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>',
-          src: '*.html',
-          dest: '<%= yeoman.dist %>'
-        }]
-      }
-    },
     // Put files not handled in other tasks here
     copy: {
       dist: {
@@ -359,7 +302,6 @@ module.exports = function(grunt) {
       ],
       test: [
         'copy:styles',
-        'jshint',
         'browserify:vendor',
         'browserify:dev',
         'browserify:test'
@@ -370,7 +312,6 @@ module.exports = function(grunt) {
         'copy:styles',
         'imagemin',
         'svgmin',
-        'htmlmin'
       ]
     }
   });
@@ -419,7 +360,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
     'test',
     'build'
   ]);
